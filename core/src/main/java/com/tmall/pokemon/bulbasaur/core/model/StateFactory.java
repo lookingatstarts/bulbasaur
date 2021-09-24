@@ -12,6 +12,7 @@ import com.tmall.pokemon.bulbasaur.core.annotation.StateMeta;
 import static com.tmall.pokemon.bulbasaur.util.SimpleUtils.require;
 
 /**
+ * 工厂设计模式
  * @author yunche.ch@taobao.com
  * @since 2013-1-6 上午11:23:58
  */
@@ -20,6 +21,12 @@ public class StateFactory {
 
 	private static Map<String, Class<? extends StateLike>> stateMap = new HashMap<String, Class<? extends StateLike>>();
 
+    static {
+        Class<? extends StateLike>[] clazz = new Class[]{Start.class, State.class, Event.class, BizInfo.class};
+        for (Class<? extends StateLike> aClass : clazz) {
+            applyState(aClass);
+        }
+    }
 	/**
 	 * @since 2013-1-6 上午11:30:28
 	 * @param name

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.tmall.pokemon.bulbasaur.core.model.Definition;
 
 /**
+ * 完成解析xml流程模版
  * 处理解析器中完成的模板和节点
  *
  * @author yunche.ch@taobao.com

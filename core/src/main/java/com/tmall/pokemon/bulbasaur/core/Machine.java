@@ -46,6 +46,13 @@ public class Machine {
         context.put(KeyWords.CURRENT_STATE_NAME, currentStateName);
     }
 
+    public void setDefinition(Definition definition){
+        this.definition = definition;
+        currentStateName = definition.getFirst();
+        context.put(KeyWords.CURRENT_PROCESS_NAME, definition.getName());
+        context.put(KeyWords.CURRENT_STATE_NAME, currentStateName);
+    }
+
     /**
      * 返回一个只读版本的上下文map，所有在此返回上的修改都是无效的
      *

@@ -12,6 +12,7 @@ import com.tmall.pokemon.bulbasaur.core.annotation.InvokableMeta;
 import static com.tmall.pokemon.bulbasaur.util.SimpleUtils.require;
 
 /**
+ * 工厂设计模式
  * @author yunche.ch@taobao.com
  * @since 2013-1-6 上午11:36:15
  */
@@ -20,6 +21,9 @@ public class InvokableFactory {
 
 	private static Map<String, Class<? extends Invokable>> invokableMap = new HashMap<String, Class<? extends Invokable>>();
 
+	static {
+	    applyInvokable(MvelScriptInvokable.class);
+    }
 	/**
 	 * @since 2013-1-6 上午11:58:30
 	 * @param name

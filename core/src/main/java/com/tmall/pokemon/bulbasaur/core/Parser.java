@@ -1,5 +1,6 @@
 package com.tmall.pokemon.bulbasaur.core;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.net.URL;
 import java.util.HashMap;
@@ -17,6 +18,9 @@ import com.tmall.pokemon.bulbasaur.core.model.Definition;
 import com.tmall.pokemon.bulbasaur.core.model.StateAround;
 import com.tmall.pokemon.bulbasaur.core.model.StateFactory;
 import com.tmall.pokemon.bulbasaur.core.model.StateLike;
+import org.springframework.beans.BeanUtils;
+import org.springframework.util.ReflectionUtils;
+import org.springframework.util.ResourceUtils;
 
 import static com.tmall.pokemon.bulbasaur.util.SimpleUtils.require;
 
@@ -91,10 +95,9 @@ public class Parser implements BaseParser {
     public Document getXML(String processName, @SuppressWarnings("UnusedParameters") int processVersion) {
 
         SAXReader reader = new SAXReader();
-        URL url = this.getClass().getResource("/" + processName.replaceAll("\\.", "/") + ".xml");
         Document document;
         try {
-            document = reader.read(url);
+            document = reader.read(ResourceUtils.getFile("classpath:demo.xml"));
         } catch (Exception e) {
             logger.error("xml流程文件读取失败!模板名：" + processName);
             throw new NullPointerException("xml流程文件读取失败!模板名：" + processName + "\n" + e);
@@ -103,4 +106,18 @@ public class Parser implements BaseParser {
         return document;
     }
 
+    public static void main(String[] args) throws Exception{
+        MachineFactory machineFactory = new MachineFactory();
+        Parser parser = new Parser();
+        Place place = new Place();
+        place.setParser(parser);
+        Field placeField = MachineFactory.class.getDeclaredField("place");
+        placeField.setAccessible(true);
+        ReflectionUtils.setField(placeField,machineFactory,place);
+        Machine machine = machineFactory.newInstance("demo", 1);
+        machine.run();
+        Definition definition = parser.parse("demo", 1);
+        machine.setDefinition(definition);
+        machine.run();
+    }
 }

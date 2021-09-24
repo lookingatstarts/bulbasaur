@@ -120,4 +120,34 @@ public class MvelScriptInvokable extends Invokable {
 	public String toString() {
 		return "MvelScriptInvokable{" + "script='" + script + '\'' + ", expr='" + expr + '\'' + ", returnKey='" + returnKey + '\'' + '}';
 	}
+
+    public static void main(String[] args) {
+        Map<String,Object> context = new HashMap<String, Object>();
+        Object obj = new Object() {
+            @Override
+            public String toString() {
+                System.out.println("dddddddd");
+                return super.toString();
+            }
+        };
+        context.put("obj",obj);
+        context.put("myObj",new ObjSon());
+
+      //  MvelUtils.eval("obj.toString()",context);
+        MvelUtils.eval("myObj.method(10)",context);
+        MvelUtils.eval("myObj.method(obj)",context);
+    }
+
+    public static class Obj{
+	    public void method(int a){
+            System.out.println(a);
+        }
+        public void method(Object object){
+            System.out.println(object.toString());
+        }
+    }
+
+    public static class ObjSon extends Obj{
+
+    }
 }
